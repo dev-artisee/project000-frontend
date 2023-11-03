@@ -1,0 +1,25 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": true,
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+
+  "javascript.validate.enable": false,
+  "typescript.validate.enable": true,
+
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  "stylelint.validate": ["css", "scss"],
+  "css.validate": false,
+  "scss.validate": false
+}
