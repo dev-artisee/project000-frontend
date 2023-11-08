@@ -10,7 +10,7 @@ const HomePage = () => {
         <div className="h-full flex flex-col gap-16 py-24">
           <section className="flex flex-col gap-6">
             <h1 className="text-6xl font-bold">픽밀업</h1>
-            <p className="text-[1.25rem] font-semibold">
+            <p className="text-[1.25rem] font-semibold break-keep">
               형님, 저는 별로 공부를 좋아하지 않는 스타일이라...
             </p>
           </section>
