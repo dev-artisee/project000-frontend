@@ -3,8 +3,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
-import Footer from '@/components/footer';
-import Header from '@/components/header';
+import Footer from '@/components/base/footer';
+import Header from '@/components/base/header';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,13 +19,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="kr">
+    <html lang="ko">
       <body className={inter.className}>
-        <div className="flex flex-col h-screen">
-          <Header />
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </div>
+        <Header />
+        <div className="flex flex-col h-screen">{children}</div>
+        <Footer />
       </body>
     </html>
   );
