@@ -11,6 +11,7 @@ const SEARCH_RADIUS_LIST = ['50m', '100m', '500m', '1km'];
 
 const SearchOptions = () => {
   const location = useGeoLocation();
+  console.log(location);
 
   return (
     <>

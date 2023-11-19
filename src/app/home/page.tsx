@@ -5,7 +5,7 @@ import SearchOptions from '@/app/home/_components/search-option';
 
 const HomePage = () => {
   return (
-    <div className="h-full overflow-hidden">
+    <div className="h-full overflow-hidden mt-14 mb-20">
       <div className="container grid grid-cols-2 gap-6 h-full">
         <div className="h-full flex flex-col gap-16 py-24">
           <section className="flex flex-col gap-6">

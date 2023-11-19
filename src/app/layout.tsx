@@ -21,11 +21,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <div className="flex flex-col h-screen">
-          <Header />
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </div>
+        <Header />
+        <div className="flex flex-col h-screen">{children}</div>
+        <Footer />
       </body>
     </html>
   );
