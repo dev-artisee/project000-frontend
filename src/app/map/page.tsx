@@ -28,7 +28,7 @@ const MapPage = () => {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="z-50">
-            <div>
+            <div className="flex flex-col gap-4">
               <ToggleGroup
                 size="sm"
                 variant="outline"
