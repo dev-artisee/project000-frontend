@@ -6,7 +6,9 @@ declare global {
   }
 }
 
-const KakaoMap = (position: { lat: number; lng: number }) => {
+const KakaoMap = (position: { lat: string; lng: string }) => {
+  const lat = Number(position.lat);
+  const lng = Number(position.lng);
   useEffect(() => {
     const kakaoMapScript = document.createElement('script');
     kakaoMapScript.async = false;
@@ -17,19 +19,19 @@ const KakaoMap = (position: { lat: number; lng: number }) => {
       window.kakao.maps.load(() => {
         const container = document.getElementById('map');
         const options = {
-          center: new window.kakao.maps.LatLng(position.lat, position.lng),
+          center: new window.kakao.maps.LatLng(lat, lng),
           level: 3,
         };
         const map = new window.kakao.maps.Map(container, options);
 
         const marker = new window.kakao.maps.Marker({
           map: map,
-          position: new window.kakao.maps.LatLng(position.lat, position.lng),
+          position: new window.kakao.maps.LatLng(lat, lng),
         });
       });
     };
     kakaoMapScript.addEventListener('load', onLoadKakaoAPI);
-  }, [position]);
+  }, [lat, lng]);
 
   return <div id="map" className="h-full w-full z-0" />;
 };
