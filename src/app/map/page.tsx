@@ -3,7 +3,7 @@
 import { Settings2 } from 'lucide-react';
 import React from 'react';
 
-import { DINER_LIST } from '@/app/_test/data';
+import { DINER_LIST } from '@/app/home/_const/const';
 import KakaoMap from '@/app/map/_components/kakao-map';
 import { Button } from '@/components/ui/button';
 import {
