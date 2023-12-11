@@ -8,14 +8,14 @@ import KakaoMap from '@/app/map/_components/kakao-map';
 import MapMenu from '@/app/map/_components/map-menu';
 
 const testData = {
-  addressName: '서울 종로구 당주동 128-14',
-  categoryName: '음식점 > 한식 > 감자탕',
-  latitude: '37.57206674297403',
-  longitude: '126.97258332291042',
-  phone: '02-722-5894',
-  placeName: '광화문뚝감',
-  placeUrl: 'http://place.map.kakao.com/18363906',
-  roadAddressName: '서울 종로구 새문안로3길 21',
+  addressName: '서울 종로구 내수동 73',
+  categoryName: '음식점 > 술집',
+  latitude: '37.57267668070279',
+  longitude: '126.97242914810151',
+  phone: '',
+  placeName: '카이라',
+  placeUrl: 'http://place.map.kakao.com/2144057499',
+  roadAddressName: '서울 종로구 새문안로3길 23',
 };
 
 const MapSection = () => {

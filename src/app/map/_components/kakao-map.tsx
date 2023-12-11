@@ -3,7 +3,8 @@ import './diner-info/diner-info-card.css';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { CoordinateType } from '@/app/home/_hooks/useGeoLocation';
-import dinerInfoMarkup, {
+import {
+  dinerCardElement,
   DinerInfoDataType,
 } from '@/app/map/_components/diner-info/diner-info-markup';
 
@@ -36,38 +37,54 @@ const KakaoMap = ({
       window.kakao.maps.load(() => {
         const container = document.getElementById('map');
         const options = {
-          center: new window.kakao.maps.LatLng(loc.lat, loc.lng),
+          center: new window.kakao.maps.LatLng(
+            parseFloat(dinerInfoData.latitude),
+            parseFloat(dinerInfoData.longitude)
+          ),
           level: 2,
         };
         const map = new window.kakao.maps.Map(container, options);
         mapRef.current = map;
 
-        const marker = new window.kakao.maps.Marker({
-          map: map,
-          position: new window.kakao.maps.LatLng(loc.lat, loc.lng),
-          clickable: true,
+        const markerArray = [
+          {
+            lat: loc.lat,
+            lng: loc.lng,
+          },
+          {
+            lat: parseFloat(dinerInfoData.latitude),
+            lng: parseFloat(dinerInfoData.longitude),
+          },
+        ];
+
+        markerArray.forEach((el) => {
+          const marker = new window.kakao.maps.Marker({
+            map: map,
+            position: new window.kakao.maps.LatLng(el.lat, el.lng),
+            clickable: true,
+          });
         });
 
-        const circle = new window.kakao.maps.Circle({
-          center: marker.getPosition(),
-          radius: parseInt(radius),
-          strokeWeight: 2,
-          strokeColor: '#75B8FA',
-          strokeOpacity: 0.7,
-          strokeStyle: 'dashed',
-          fillColor: '#CFE7FF',
-          fillOpacity: 0.4,
-        });
-        circle.setMap(map);
+        // const circle = new window.kakao.maps.Circle({
+        //   center: new window.kakao.maps.LatLng(loc.lat, loc.lng),
+        //   radius: parseInt(radius),
+        //   strokeWeight: 2,
+        //   strokeColor: '#75B8FA',
+        //   strokeOpacity: 0.7,
+        //   strokeStyle: 'dashed',
+        //   fillColor: '#CFE7FF',
+        //   fillOpacity: 0.4,
+        // });
+        // circle.setMap(map);
 
         const customOverlayPosition = new window.kakao.maps.LatLng(
-          loc.lat + 0.0005,
-          loc.lng
+          parseFloat(dinerInfoData.latitude) + 0.00025,
+          parseFloat(dinerInfoData.longitude)
         );
         const customOverlay = new window.kakao.maps.CustomOverlay({
           map: map,
           clickable: true,
-          content: dinerInfoMarkup(dinerInfoData),
+          content: dinerCardElement(dinerInfoData),
           position: customOverlayPosition,
           xAnchor: 0.5,
           yAnchor: 1,
@@ -86,6 +103,10 @@ const KakaoMap = ({
       });
     };
     kakaoMapScript.addEventListener('load', onLoadKakaoAPI);
+    const bookmarkButton = document.getElementById('diner-bookmark-btn');
+    bookmarkButton?.addEventListener('click', () => {
+      console.log('button click');
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dinerInfoData, loc]);
 
