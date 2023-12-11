@@ -13,10 +13,20 @@ import {
 import { Slider } from '@/components/ui/slider';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-const MapMenu = () => {
+const MapMenu = ({
+  radius,
+  setRadius,
+}: {
+  radius: string;
+  setRadius: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const dinerList = DINER_LIST;
+  const handleRadius = (value: number) => {
+    setRadius(`${value}`);
+  };
+
   return (
-    <div>
+    <div className="flex gap-2">
       <Button className="px-4">다시 추천받기</Button>
       <Popover>
         <PopoverTrigger asChild>
@@ -38,7 +48,14 @@ const MapMenu = () => {
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
-            <Slider defaultValue={[2]} max={4} step={1} />
+            <Slider
+              defaultValue={[parseInt(radius)]}
+              value={[parseInt(radius)]}
+              onValueChange={(value: number[]) => handleRadius(value[0])}
+              min={50}
+              max={1000}
+              step={10}
+            />
           </div>
         </PopoverContent>
       </Popover>

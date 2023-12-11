@@ -1,21 +1,22 @@
 'use client';
 
 import useEmblaCarousel from 'embla-carousel-react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react';
+
+import { CoordinateType } from '@/app/home/_hooks/useGeoLocation';
 
 let slides = ['전체', '한식', '일식', '중식', '양식'];
 slides = [...slides, ...slides];
 
 const DinerCards = ({
-  lat,
-  lng,
+  loc,
   radius,
 }: {
-  lat: number;
-  lng: number;
+  loc: CoordinateType;
   radius: string;
 }) => {
+  const router = useRouter();
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
     dragFree: true,
@@ -30,25 +31,26 @@ const DinerCards = ({
     emblaApi && emblaApi.scrollNext(true);
   }, [emblaApi]);
 
+  const handleSearch = (slide: string) => {
+    localStorage.setItem('loc', JSON.stringify(loc));
+    router.push(`/map?radius=${radius}&category=${slide}`);
+  };
+
   return (
     <div className="h-full flex flex-col gap-12 py-24">
       <div>여러 음식 장르들</div>
-      <section
-        className=" mr-[calc(100%-50vw)] overflow-hidden max-w-[1200px]"
-        ref={emblaRef}
-      >
+      <section className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {slides.map((slide, i) => (
-            <Link
+            <button
               key={i}
-              href={`/map?lat=${lat}&lng=${lng}&radius=${radius}&category=${slide}`}
+              onClick={() => handleSearch(slide)}
+              className="h-[24rem] flex-[0_0_100%] min-w-0 max-w-[16.5rem] pr-6"
             >
-              <div className="h-[24rem] flex-[0_0_100%] min-w-0 max-w-[16.5rem] pr-6">
-                <div className="h-full p-6 border rounded-lg">
-                  <span className="font-bold text-3xl">{slide}</span>
-                </div>
+              <div className="h-full p-6 border rounded-lg">
+                <span className="font-bold text-3xl">{slide}</span>
               </div>
-            </Link>
+            </button>
           ))}
         </div>
       </section>

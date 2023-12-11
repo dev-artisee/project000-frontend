@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 import DinerCards from '@/app/home/_components/diner-cards';
@@ -9,9 +8,8 @@ import { useGeoLocation } from '@/app/home/_hooks/useGeoLocation';
 import { Button } from '@/components/ui/button';
 
 const Landing = () => {
-  const router = useRouter();
   const location = useGeoLocation();
-  const [searchRadius, setSearchRadius] = useState('50m');
+  const [searchRadius, setSearchRadius] = useState('50');
 
   return (
     <div>
@@ -22,7 +20,7 @@ const Landing = () => {
       <section>
         <div>
           검색 위치 :{' '}
-          {location.loaded ? location.coordinates?.adress : 'loading...'}
+          {location.loaded ? location.coordinates?.address : 'loading...'}
         </div>
         <div>
           <label>검색 반경</label>
@@ -41,11 +39,7 @@ const Landing = () => {
       </section>
       <section>
         {location.coordinates && (
-          <DinerCards
-            lng={location.coordinates?.lng}
-            lat={location.coordinates?.lat}
-            radius={searchRadius}
-          />
+          <DinerCards loc={location.coordinates} radius={searchRadius} />
         )}
       </section>
     </div>
