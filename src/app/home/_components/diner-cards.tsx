@@ -38,7 +38,7 @@ const DinerCards = ({
 
   return (
     <div className="h-full flex flex-col gap-12 py-24">
-      <div>여러 음식 장르들</div>
+      {/* <div>여러 음식 장르들</div> */}
       <section className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {slides.map((slide, i) => (
@@ -54,10 +54,10 @@ const DinerCards = ({
           ))}
         </div>
       </section>
-      <div>
+      {/* <div>
         <button onClick={scrollPrev}>Prev</button>
         <button onClick={scrollNext}>Next</button>
-      </div>
+      </div> */}
     </div>
   );
 };

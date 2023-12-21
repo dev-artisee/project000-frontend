@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 
 import { getAddress } from '@/app/home/_api/getAddress';
 
-export interface CoordinateType {
+export type CoordinateType = {
   lat: number;
   lng: number;
   address: string;
-}
+};
 export interface LocationType {
   loaded: boolean;
   coordinates?: CoordinateType;

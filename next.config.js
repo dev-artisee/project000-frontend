@@ -9,6 +9,14 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: '/:path*',
+        destination: 'https://dev-artisee.xyz/api/:path*',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

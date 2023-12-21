@@ -1,9 +1,11 @@
 'use client';
 
 import { Settings2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { DINER_LIST } from '@/app/home/_const/const';
+import { CurrentLocType } from '@/app/map/_components/kakao-map';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
@@ -16,18 +18,30 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 const MapMenu = ({
   radius,
   setRadius,
+  currentLoc,
 }: {
   radius: string;
   setRadius: React.Dispatch<React.SetStateAction<string>>;
+  currentLoc: CurrentLocType;
 }) => {
+  console.log(currentLoc);
   const dinerList = DINER_LIST;
   const handleRadius = (value: number) => {
     setRadius(`${value}`);
   };
+  const router = useRouter();
+
+  const handleRecommend = () => {
+    router.push(
+      `/map?latitude=${currentLoc.lat}&longitude=${currentLoc.lng}&radius=100&category=`
+    );
+  };
 
   return (
     <div className="flex gap-2">
-      <Button className="px-4">다시 추천받기</Button>
+      <Button onClick={() => handleRecommend()} className="px-4">
+        다시 추천받기
+      </Button>
       <Popover>
         <PopoverTrigger asChild>
           <Button variant="outline" size="icon">
@@ -48,6 +62,7 @@ const MapMenu = ({
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
+            <div>{radius}</div>
             <Slider
               defaultValue={[parseInt(radius)]}
               value={[parseInt(radius)]}

@@ -3,9 +3,7 @@
 import React, { useState } from 'react';
 
 import DinerCards from '@/app/home/_components/diner-cards';
-import { SEARCH_RADIUS_LIST } from '@/app/home/_const/const';
 import { useGeoLocation } from '@/app/home/_hooks/useGeoLocation';
-import { Button } from '@/components/ui/button';
 
 const Landing = () => {
   const location = useGeoLocation();
@@ -22,7 +20,7 @@ const Landing = () => {
           검색 위치 :{' '}
           {location.loaded ? location.coordinates?.address : 'loading...'}
         </div>
-        <div>
+        {/* <div>
           <label>검색 반경</label>
           <div className="mt-2 flex flex-wrap gap-2">
             {SEARCH_RADIUS_LIST.map((radius, i) => (
@@ -35,7 +33,7 @@ const Landing = () => {
               </Button>
             ))}
           </div>
-        </div>
+        </div> */}
       </section>
       <section>
         {location.coordinates && (
