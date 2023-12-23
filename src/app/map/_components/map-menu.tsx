@@ -1,45 +1,35 @@
 'use client';
 
 import { Settings2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { DINER_LIST } from '@/app/home/_const/const';
-import { CurrentLocType } from '@/app/map/_components/kakao-map';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Slider } from '@/components/ui/slider';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-const MapMenu = ({
-  radius,
-  setRadius,
-  currentLoc,
-}: {
-  radius: string;
-  setRadius: React.Dispatch<React.SetStateAction<string>>;
-  currentLoc: CurrentLocType;
-}) => {
-  console.log(currentLoc);
-  const dinerList = DINER_LIST;
-  const handleRadius = (value: number) => {
-    setRadius(`${value}`);
-  };
-  const router = useRouter();
+const RADIUS_LIST = ['0', '50', '100', '500', '1000'];
 
-  const handleRecommend = () => {
-    router.push(
-      `/map?latitude=${currentLoc.lat}&longitude=${currentLoc.lng}&radius=100&category=`
-    );
+const MapMenu = ({
+  searchRadius,
+  setSearchRadius,
+  handleSearch,
+}: {
+  searchRadius: string;
+  setSearchRadius: React.Dispatch<React.SetStateAction<string>>;
+  handleSearch: () => void;
+}) => {
+  const radiusList = RADIUS_LIST;
+  const handleRadius = (value: number) => {
+    setSearchRadius(`${value}`);
   };
 
   return (
     <div className="flex gap-2">
-      <Button onClick={() => handleRecommend()} className="px-4">
+      <Button onClick={() => handleSearch()} className="px-4">
         다시 추천받기
       </Button>
       <Popover>
@@ -49,28 +39,37 @@ const MapMenu = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="z-50">
+          <h3 className="text-sm text-muted-foreground font-medium mb-2 ml-2">
+            검색반경
+          </h3>
           <div className="flex flex-col gap-4">
             <ToggleGroup
               size="sm"
               variant="outline"
-              type="multiple"
+              type="single"
               className="flex-wrap justify-start"
+              value={`${searchRadius}`}
+              onValueChange={(value: string) => handleRadius(parseInt(value))}
             >
-              {dinerList.map((diner, i) => (
-                <ToggleGroupItem key={i} value={diner}>
-                  {diner}
+              {radiusList.map((radius, i) => (
+                <ToggleGroupItem
+                  key={i}
+                  value={radius}
+                  className="px-4 rounded-full"
+                >
+                  {radius}m
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
-            <div>{radius}</div>
+            {/* <div>{searchRadius}</div>
             <Slider
-              defaultValue={[parseInt(radius)]}
-              value={[parseInt(radius)]}
+              defaultValue={[parseInt(searchRadius)]}
+              value={[parseInt(searchRadius)]}
               onValueChange={(value: number[]) => handleRadius(value[0])}
-              min={50}
+              min={0}
               max={1000}
-              step={10}
-            />
+              step={50}
+            /> */}
           </div>
         </PopoverContent>
       </Popover>

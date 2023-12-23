@@ -43,16 +43,16 @@ export const dinerCardElement = (data: DinerInfoDataType) => {
   shareImage.height = 16;
   shareButton.appendChild(shareImage);
 
-  const bookmarkButton = document.createElement('button');
-  bookmarkButton.id = 'diner-bookmark-btn';
-  const bookmarkImage = document.createElement('img');
-  bookmarkImage.src = 'bookmark.svg';
-  bookmarkImage.width = 16;
-  bookmarkImage.height = 16;
-  bookmarkButton.appendChild(bookmarkImage);
+  // const bookmarkButton = document.createElement('button');
+  // bookmarkButton.id = 'diner-bookmark-btn';
+  // const bookmarkImage = document.createElement('img');
+  // bookmarkImage.src = 'bookmark.svg';
+  // bookmarkImage.width = 16;
+  // bookmarkImage.height = 16;
+  // bookmarkButton.appendChild(bookmarkImage);
 
   dinerCardOption.appendChild(shareButton);
-  dinerCardOption.appendChild(bookmarkButton);
+  // dinerCardOption.appendChild(bookmarkButton);
 
   const dinerCardContent = document.createElement('div');
   dinerCardContent.id = 'diner-card-content';

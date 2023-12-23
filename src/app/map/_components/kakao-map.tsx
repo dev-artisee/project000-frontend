@@ -1,12 +1,11 @@
 import './diner-info/diner-info-card.css';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 
 import {
   dinerCardElement,
   DinerInfoDataType,
 } from '@/app/map/_components/diner-info/diner-info-markup';
-import MapMenu from '@/app/map/_components/map-menu';
 
 declare global {
   interface Window {
@@ -14,24 +13,27 @@ declare global {
   }
 }
 
-export type CurrentLocType = {
+export type LocType = {
   lat: string;
   lng: string;
 };
 
 const KakaoMap = ({
-  originalLoc,
-  originalRadius,
+  loc,
+  setLoc,
+  centerLoc,
+  setCenterLoc,
+  searchRadius,
   dinerInfoData,
 }: {
-  originalLoc: CurrentLocType;
-  originalRadius: string;
+  loc: LocType;
+  setLoc: Dispatch<SetStateAction<LocType>>;
+  centerLoc: LocType;
+  setCenterLoc: Dispatch<SetStateAction<LocType>>;
+  searchRadius: string;
   dinerInfoData: DinerInfoDataType;
 }) => {
   console.log('rendered');
-  const [currentLoc, setCurrentLoc] = useState(originalLoc);
-  const [radius, setRadius] = useState(originalRadius);
-  const [dinerInfo, setDinerInfo] = useState(dinerInfoData);
   const mapRef = useRef<any>(null);
   const circleRef = useRef<any>(null);
 
@@ -46,8 +48,8 @@ const KakaoMap = ({
         const container = document.getElementById('map');
         const options = {
           center: new window.kakao.maps.LatLng(
-            parseFloat(originalLoc.lat),
-            parseFloat(originalLoc.lng)
+            parseFloat(loc.lat),
+            parseFloat(loc.lng)
           ),
           level: 2,
         };
@@ -56,12 +58,12 @@ const KakaoMap = ({
 
         const markerArray = [
           {
-            lat: originalLoc.lat,
-            lng: originalLoc.lng,
+            lat: parseFloat(loc.lat),
+            lng: parseFloat(loc.lng),
           },
           {
-            lat: parseFloat(dinerInfo.latitude),
-            lng: parseFloat(dinerInfo.longitude),
+            lat: parseFloat(dinerInfoData.latitude),
+            lng: parseFloat(dinerInfoData.longitude),
           },
         ];
 
@@ -73,26 +75,26 @@ const KakaoMap = ({
           });
         });
 
-        // const circle = new window.kakao.maps.Circle({
-        //   center: new window.kakao.maps.LatLng(loc.lat, loc.lng),
-        //   radius: parseInt(radius),
-        //   strokeWeight: 2,
-        //   strokeColor: '#75B8FA',
-        //   strokeOpacity: 0.7,
-        //   strokeStyle: 'dashed',
-        //   fillColor: '#CFE7FF',
-        //   fillOpacity: 0.4,
-        // });
-        // circle.setMap(map);
+        const circle = new window.kakao.maps.Circle({
+          center: new window.kakao.maps.LatLng(loc.lat, loc.lng),
+          radius: parseInt(searchRadius),
+          strokeWeight: 2,
+          strokeColor: '#75B8FA',
+          strokeOpacity: 0.7,
+          strokeStyle: 'dashed',
+          fillColor: '#CFE7FF',
+          fillOpacity: 0.4,
+        });
+        circle.setMap(map);
 
         const customOverlayPosition = new window.kakao.maps.LatLng(
-          parseFloat(dinerInfo.latitude) + 0.00025,
-          parseFloat(dinerInfo.longitude)
+          parseFloat(dinerInfoData.latitude) + 0.00025,
+          parseFloat(dinerInfoData.longitude)
         );
         const customOverlay = new window.kakao.maps.CustomOverlay({
           map: map,
           clickable: true,
-          content: dinerCardElement(dinerInfo),
+          content: dinerCardElement(dinerInfoData),
           position: customOverlayPosition,
           xAnchor: 0.5,
           yAnchor: 1,
@@ -102,7 +104,7 @@ const KakaoMap = ({
         window.kakao.maps.event.addListener(map, 'center_changed', () => {
           const center = map.getCenter();
           // console.log(center.getLat(), center.getLng());
-          setCurrentLoc({
+          setCenterLoc({
             lat: center.getLat(),
             lng: center.getLng(),
           });
@@ -114,7 +116,7 @@ const KakaoMap = ({
     bookmarkButton?.addEventListener('click', () => {
       console.log('button click');
     });
-  }, [dinerInfo, originalLoc.lat, originalLoc.lng]);
+  }, [dinerInfoData, loc, setCenterLoc]);
 
   useEffect(() => {
     console.log('center changed');
@@ -125,8 +127,8 @@ const KakaoMap = ({
         circle.setMap(null);
       }
       const newCircle = new window.kakao.maps.Circle({
-        center: new window.kakao.maps.LatLng(currentLoc.lat, currentLoc.lng),
-        radius: parseInt(radius),
+        center: new window.kakao.maps.LatLng(centerLoc.lat, centerLoc.lng),
+        radius: parseInt(searchRadius),
         strokeWeight: 2,
         strokeColor: '#75B8FA',
         strokeOpacity: 0.7,
@@ -137,23 +139,9 @@ const KakaoMap = ({
       newCircle.setMap(map);
       circleRef.current = newCircle;
     }
-  }, [currentLoc, radius]);
+  }, [centerLoc, searchRadius]);
 
-  return (
-    <section>
-      <div className="flex gap-2 fixed z-50 bottom-6 left-[50%] translate-x-[-50%]">
-        <MapMenu
-          currentLoc={currentLoc}
-          radius={radius}
-          setRadius={setRadius}
-          setDinerInfo={setDinerInfo}
-        />
-      </div>
-      <div className="h-screen w-screen">
-        <div id="map" className="h-full w-full z-0" />;
-      </div>
-    </section>
-  );
+  return <div id="map" className="h-full w-full z-0" />;
 };
 
 export default KakaoMap;

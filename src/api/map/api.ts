@@ -8,8 +8,8 @@ export const getRecommendPlace = async ({
 }: {
   latitude: string;
   longitude: string;
-  radius: string | null;
-  category: string | null;
+  radius?: string;
+  category?: string;
 }) => {
   try {
     const response = await apiClient().get(`/recommend/place`, {
