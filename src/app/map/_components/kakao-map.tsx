@@ -116,6 +116,7 @@ const KakaoMap = ({
     bookmarkButton?.addEventListener('click', () => {
       console.log('button click');
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dinerInfoData, loc, setCenterLoc]);
 
   useEffect(() => {
